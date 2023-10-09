@@ -127,9 +127,12 @@
     <value>トラック名変更</value>
   </data>
   <data name="Menu0_0" xml:space="preserve">
-    <value>テキストからインポート（カンマ区切り）</value>
+    <value>全角 =&gt; 半角</value>
   </data>
   <data name="Menu0_1" xml:space="preserve">
+    <value>テキストからインポート（カンマ区切り）</value>
+  </data>
+  <data name="Menu0_2" xml:space="preserve">
     <value>テキストからインポート（TAB区切り）</value>
   </data>
   <data name="MyDescription" xml:space="preserve">

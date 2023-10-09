@@ -127,9 +127,12 @@
     <value>Track name change</value>
   </data>
   <data name="Menu0_0" xml:space="preserve">
-    <value>Import from text (comma)</value>
+    <value>Zenkaku =&gt; Hankaku</value>
   </data>
   <data name="Menu0_1" xml:space="preserve">
+    <value>Import from text (comma)</value>
+  </data>
+  <data name="Menu0_2" xml:space="preserve">
     <value>Import from text (TAB)</value>
   </data>
   <data name="MyDescription" xml:space="preserve">

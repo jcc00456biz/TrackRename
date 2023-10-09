@@ -88,7 +88,7 @@ namespace MusicBeePlugin.Properties {
         }
         
         /// <summary>
-        ///   Import from text (comma) に類似しているローカライズされた文字列を検索します。
+        ///   Zenkaku =&gt; Hankaku に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Menu0_0 {
             get {
@@ -97,11 +97,20 @@ namespace MusicBeePlugin.Properties {
         }
         
         /// <summary>
-        ///   Import from text (TAB) に類似しているローカライズされた文字列を検索します。
+        ///   Import from text (comma) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Menu0_1 {
             get {
                 return ResourceManager.GetString("Menu0_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Import from text (TAB) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Menu0_2 {
+            get {
+                return ResourceManager.GetString("Menu0_2", resourceCulture);
             }
         }
         

@@ -89,6 +89,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="StringUtility.cs" />
     <Compile Include="TrackRename.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

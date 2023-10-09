@@ -16,6 +16,7 @@ namespace MusicBeePlugin
         private string Menu0 = "context.Main/" + Properties.Resources.Menu0;
         private string Menu0_0 = "context.Main/" + Properties.Resources.Menu0 + "/" + Properties.Resources.Menu0_0;
         private string Menu0_1 = "context.Main/" + Properties.Resources.Menu0 + "/" + Properties.Resources.Menu0_1;
+        private string Menu0_2 = "context.Main/" + Properties.Resources.Menu0 + "/" + Properties.Resources.Menu0_2;
 
         private Logger Mylog = null;
 
@@ -38,13 +39,14 @@ namespace MusicBeePlugin
             about.ConfigurationPanelHeight = 0;   // height in pixels that musicbee should reserve in a panel for config settings. When set, a handle to an empty panel will be passed to the Configure function
 
             mbApiInterface.MB_AddMenuItem( Menu0, null, null );
-            mbApiInterface.MB_AddMenuItem( Menu0_0, null, MyPlugin );
-            mbApiInterface.MB_AddMenuItem( Menu0_1, null, MyPlugin );
+            mbApiInterface.MB_AddMenuItem( Menu0_0, null, Zenkaku2Hankaku );
+            mbApiInterface.MB_AddMenuItem( Menu0_1, null, ImportTextFile );
+            mbApiInterface.MB_AddMenuItem( Menu0_2, null, ImportTextFile );
 
             Mylog = Logger.GetInstance( mbApiInterface.Setting_GetPersistentStoragePath(), "TrackRename" );
             return about;
         }
-        private void MyPlugin( object sender, EventArgs args )
+        private bool IsPlay()
         {
             // 生成中または一時停止中は処理しない
             switch ( mbApiInterface.Player_GetPlayState() )
@@ -52,9 +54,62 @@ namespace MusicBeePlugin
                 case PlayState.Playing:
                 case PlayState.Paused:
                     // 再生・一時停止中は処理しない
-                    return;
+                    return true;
                 default:
                     break;
+            }
+            return false;
+        }
+
+        private void Zenkaku2Hankaku( object sender, EventArgs args )
+        {
+            if ( IsPlay() )
+            {
+                return;
+            }
+
+            // 選択中のものを取得
+            if ( !mbApiInterface.Library_QueryFilesEx( "domain=SelectedFiles", out string[] files ) )
+                files = new string[0];
+
+            // 未選択の場合
+            if ( files.Length == 0 )
+            {
+                return;
+            }
+            string at;
+            string tt1;
+            string tt2;
+            bool refresh_f = false;
+            foreach ( string file in files )
+            {
+                at = mbApiInterface.Library_GetFileTag( file, MetaDataType.Album );
+                tt1 = mbApiInterface.Library_GetFileTag( file, MetaDataType.TrackTitle );
+
+                tt2 = StrUtility.Zen2Han( tt1 );
+
+                if ( tt2 != tt1 )
+                {
+                    mbApiInterface.Library_SetFileTag( file, MetaDataType.TrackTitle, tt2 );
+                    mbApiInterface.Library_CommitTagsToFile( file );
+                    // Log
+                    string log_str = string.Format( "[{0}][{1}]=>[{2}]", at, tt1, tt2 );
+                    Mylog.LogOutput( log_str );
+                    refresh_f = true;
+
+                }
+                if ( refresh_f == true )
+                {
+                    mbApiInterface.MB_RefreshPanels();
+                }
+
+            }
+        }
+        private void ImportTextFile( object sender, EventArgs args )
+        {
+            if ( IsPlay() )
+            {
+                return;
             }
 
             string a = args.ToString();
@@ -67,7 +122,6 @@ namespace MusicBeePlugin
             {
                 delimiterChars = '\t';
             }
-
 
             string fname = SelectFile();
             if ( fname.Length != 0 )
@@ -96,7 +150,6 @@ namespace MusicBeePlugin
                 string at;
                 string tt;
                 bool refresh_f = false;
-                string dataPath = mbApiInterface.Setting_GetPersistentStoragePath();
                 foreach ( string file in files )
                 {
                     at = mbApiInterface.Library_GetFileTag( file, MetaDataType.Album );
