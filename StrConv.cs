@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MusicBeePlugin
 {
-    class StrUtility
+    static class StrConv
     {
         // 全角数字を半角にする
         public static string ZenBlank2Han( string org_str )
@@ -72,7 +72,7 @@ namespace MusicBeePlugin
         {
             string ret_str = org_str;
             ret_str = ret_str.Replace( "！", "!" ).Replace( "．", "." );
-            ret_str = ret_str.Replace( "”", "\"").Replace("／", " / ");
+            ret_str = ret_str.Replace( "”", "\"" ).Replace( "／", " / " );
             ret_str = ret_str.Replace( "＃", "#" ).Replace( "：", ":" );
             ret_str = ret_str.Replace( "＄", "$" ).Replace( "；", ";" );
             ret_str = ret_str.Replace( "％", "%" ).Replace( "＜", "<" );
@@ -96,5 +96,6 @@ namespace MusicBeePlugin
             ret_str = ZenSymbol2Han( ret_str );
             return ret_str;
         }
+
     }
 }

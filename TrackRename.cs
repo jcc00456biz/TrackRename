@@ -85,8 +85,7 @@ namespace MusicBeePlugin
             {
                 at = mbApiInterface.Library_GetFileTag( file, MetaDataType.Album );
                 tt1 = mbApiInterface.Library_GetFileTag( file, MetaDataType.TrackTitle );
-
-                tt2 = StrUtility.Zen2Han( tt1 );
+                tt2 = StrConv.Zen2Han( tt1 );
 
                 if ( tt2 != tt1 )
                 {
